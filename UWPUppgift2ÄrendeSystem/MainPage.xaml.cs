@@ -31,9 +31,15 @@ namespace UWPUppgift2ÄrendeSystem
         public MainPage()
         {
             this.InitializeComponent();
+           // LoadCustomersAsync().GetAwaiter();
             LoadIssuesAsync().GetAwaiter();
         }
 
+
+        private async Task LoadCustomersAsync()
+        {
+           // cmbCustomers.ItemsSource = await SqliteContext.GetCustomersName();
+        }
 
       private async Task LoadIssuesAsync()
         {
@@ -58,7 +64,8 @@ namespace UWPUppgift2ÄrendeSystem
         private async void CreateCustomer_Click(object sender, RoutedEventArgs e)
         {
             
-           _customerId =  await SqliteContext.CreateCustomerAsync(new Customer {Name = "MArcus" });
+           _customerId = (int)(long)await SqliteContext.CreateCustomerAsync(new Customer {Name = "MArcus-" + Guid.NewGuid().ToString() });
+            await LoadCustomersAsync();
         }
 
         private async void CreateCase_Click(object sender, RoutedEventArgs e)
@@ -66,13 +73,14 @@ namespace UWPUppgift2ÄrendeSystem
             await SqliteContext.CreateIssueAsync(
                 new Issue
                 {
-                    Title = "Ett ärende",
+                    Title = "Ett ärende" + Guid.NewGuid().ToString(),
                     Description = "Detta är ett ärende",
                     CustomerId = _customerId
+                   // CustomerId = await SqliteContext.GetCustomersIdByName(cmbCustomers.SelectedItem.ToString())
 
                 }
 
-                );
+                ) ;
 
            await  LoadIssuesAsync();
         }

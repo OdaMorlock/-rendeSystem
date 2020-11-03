@@ -37,7 +37,7 @@ namespace DataAccess.Data
 
         #region Create Methods
 
-        public static async Task<int> CreateCustomerAsync (Customer customer)
+        public static async Task<long> CreateCustomerAsync (Customer customer)
         {
             int id = 0;
 
@@ -54,7 +54,7 @@ namespace DataAccess.Data
                 await cmd.ExecuteNonQueryAsync();
 
                 cmd.CommandText = "SELECT last_insert_rowid()";
-                id = (int)await cmd.ExecuteScalarAsync();
+                id = (int)(long)await cmd.ExecuteScalarAsync();
 
 
 
@@ -65,9 +65,9 @@ namespace DataAccess.Data
         }
 
 
-        public static async Task<int> CreateIssueAsync(Issue issue)
+        public static async Task<long> CreateIssueAsync(Issue issue)
         {
-            int id = 0;
+            long id = 0;
 
             using (var db = new SqliteConnection(_dbpath))
             {
@@ -85,7 +85,7 @@ namespace DataAccess.Data
                 await cmd.ExecuteNonQueryAsync();
 
                 cmd.CommandText = "SELECT last_insert_rowid()";
-                id = (int)await cmd.ExecuteScalarAsync();
+                id = (int)(long)await cmd.ExecuteScalarAsync();
 
 
 
@@ -206,7 +206,7 @@ namespace DataAccess.Data
             {
                 db.Open();
 
-                var query = "SELECT * FROM Coments WHERE IssueId = @issueid";
+                var query = "SELECT * FROM Comments WHERE IssueId = @IssueId";
                 var cmd = new SqliteCommand(query, db);
                 cmd.Parameters.AddWithValue("@IssueId", issueid);
 
