@@ -12,14 +12,14 @@ namespace DataAccess.Models
         {
 
         }
-        public Customer(int id, string name, DateTime created)
+        public Customer(long id, string name, DateTime created)
         {
             Id = id;
             Name = name;
             Created = created;
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string  Name { get; set; }
         public DateTime Created { get; set; }
 

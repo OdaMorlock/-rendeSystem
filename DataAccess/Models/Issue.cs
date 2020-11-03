@@ -13,7 +13,7 @@ namespace DataAccess.Models
 
         }
 
-        public Issue(int id, int customerId, string title, string description, string status, DateTime created)
+        public Issue(long id, long customerId, string title, string description, string status, DateTime created)
         {
             Id = id;
             CustomerId = customerId;
@@ -23,8 +23,8 @@ namespace DataAccess.Models
             Created = created;
         }
 
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public long Id { get; set; }
+        public long CustomerId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }

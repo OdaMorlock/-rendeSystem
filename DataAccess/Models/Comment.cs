@@ -16,7 +16,7 @@ namespace DataAccess.Models
 
 
 
-        public Comment(int id, int issuedId, string description, DateTime created)
+        public Comment(long id, long issuedId, string description, DateTime created)
         {
             Id = id;
             IssueId = issuedId;
@@ -24,8 +24,8 @@ namespace DataAccess.Models
             Created = created;
         }
 
-        public int Id { get; set; }
-        public int IssueId { get; set; }
+        public long Id { get; set; }
+        public long IssueId { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }
     }

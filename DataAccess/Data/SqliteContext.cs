@@ -39,7 +39,7 @@ namespace DataAccess.Data
 
         public static async Task<long> CreateCustomerAsync (Customer customer)
         {
-            int id = 0;
+            long id = 0;
 
             using (var db = new SqliteConnection(_dbpath))
             {
@@ -162,7 +162,7 @@ namespace DataAccess.Data
 
 
 
-        public static async Task<Customer> GetCustomerByIdAsync(int id)
+        public static async Task<Customer> GetCustomerByIdAsync(long id)
         {
             var customer = new Customer();
 
@@ -196,7 +196,28 @@ namespace DataAccess.Data
         }
 
 
+        public static async Task<long> GetCustomerIdByNameAsync(string name)
+        {
+            long customerid = 0;
 
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+
+                var query = "SELECT Id FROM Customers WHERE Name = @Name";
+                var cmd = new SqliteCommand(query, db);
+
+                cmd.Parameters.AddWithValue("@Name", name);
+
+                var result = await cmd.ExecuteReaderAsync();
+
+               
+
+                db.Close();
+            }
+
+            return customerid;
+        }
 
         public static async Task<ICollection<Comment>> GetCommentsByIssueIdAsync(int issueid)
         {
