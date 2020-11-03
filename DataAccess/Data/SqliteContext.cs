@@ -16,7 +16,7 @@ namespace DataAccess.Data
 
         #region Configuration and Properties 
         private static string _dbpath { get; set; }
-        private static async void UseSQLite(string databaseName = "sqlite.db")
+        public static async void UseSQLite(string databaseName = "sqlite.db")
         {
 
             await ApplicationData.Current.LocalFolder.CreateFileAsync(databaseName, CreationCollisionOption.OpenIfExists);
@@ -124,5 +124,156 @@ namespace DataAccess.Data
         }
 
         #endregion
+
+
+        #region Get Methods
+
+        public static async Task<IEnumerable<Customer>> GetCustomersAsync()
+        {
+            var customers = new List<Customer>();
+
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+
+                var query = "SELECT * FROM Customers";
+                var cmd = new SqliteCommand(query, db);
+
+               
+                var result = await cmd.ExecuteReaderAsync();
+
+                if ( result.HasRows)
+                {
+                    while (result.Read())
+                    {
+                        customers.Add(new Customer(
+                         result.GetInt32(0),
+                         result.GetString(1),
+                         result.GetDateTime(2)
+                        ));
+                    }
+                }
+
+                db.Close();
+            }
+
+            return customers;
+        }
+
+
+
+        public static async Task<Customer> GetCustomerByIdAsync(int id)
+        {
+            var customer = new Customer();
+
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+
+                var query = "SELECT * FROM Customers WHERE id = @Id";
+                var cmd = new SqliteCommand(query, db);
+
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                var result = await cmd.ExecuteReaderAsync();
+
+                if (result.HasRows)
+                {
+                    while (result.Read())
+                    {
+                        customer = new Customer (
+                         result.GetInt32(0),
+                         result.GetString(1),
+                         result.GetDateTime(2)
+                        );
+                    }
+                }
+
+                db.Close();
+            }
+
+            return customer;
+        }
+
+
+
+
+        public static async Task<ICollection<Comment>> GetCommentsByIssueIdAsync(int issueid)
+        {
+            var comments = new List<Comment>();
+
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+
+                var query = "SELECT * FROM Coments WHERE IssueId = @issueid";
+                var cmd = new SqliteCommand(query, db);
+                cmd.Parameters.AddWithValue("@IssueId", issueid);
+
+                var result = await cmd.ExecuteReaderAsync();
+
+                if (result.HasRows)
+                {
+                    while (result.Read())
+                    {
+                        comments.Add(new Comment (
+                        result.GetInt32(0),
+                        result.GetInt32(1),
+                        result.GetString(2),
+                        result.GetDateTime(3)
+                        ));
+                    }
+                }
+
+                db.Close();
+            }
+
+            return comments;
+        }
+
+
+        public static async Task<IEnumerable<Issue>> GetIssuesAsync()
+        {
+            var issues = new List<Issue>();
+
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+
+                var query = "SELECT * FROM Issues";
+                var cmd = new SqliteCommand(query, db);
+
+
+                var result = await cmd.ExecuteReaderAsync();
+
+                if (result.HasRows)
+                {
+                    while (result.Read())
+                    {
+
+                        var issue = new Issue(
+                         result.GetInt32(0),
+                         result.GetInt32(1),
+                         result.GetString(2),
+                         result.GetString(3),
+                         result.GetString(4),
+                         result.GetDateTime(5)
+                         );
+
+                        issue.Customer = await GetCustomerByIdAsync(result.GetInt32(1));
+                        issue.Comments = await GetCommentsByIssueIdAsync(result.GetInt32(0));
+
+                        issues.Add(issue);
+                    }
+                }
+
+                db.Close();
+            }
+
+            return issues;
+        }
+
+        #endregion
+
     }
 }

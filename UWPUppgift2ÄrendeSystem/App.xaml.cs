@@ -30,6 +30,8 @@ namespace UWPUppgift2ÄrendeSystem
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            DataAccess.Data.SqliteContext.UseSQLite();
         }
 
         /// <summary>
