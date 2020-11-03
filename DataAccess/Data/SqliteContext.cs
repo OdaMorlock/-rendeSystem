@@ -128,6 +128,29 @@ namespace DataAccess.Data
 
         #region Get Methods
 
+        public static async Task<IEnumerable<string>> GetCustomerNamesAsync()
+        {
+            var customersnames = new List<string>();
+
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+                var query = "SELECT Name FROM Customers";
+                var cmd = new SqliteCommand(query, db);
+
+                var result = await cmd.ExecuteReaderAsync();
+                if ( result.HasRows)
+                {
+                    while ( result.Read())
+                    {
+                        customersnames.Add(result.GetString(0));
+                    }
+                }
+                db.Close();
+            }
+            return customersnames;
+        }
+
         public static async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             var customers = new List<Customer>();
@@ -147,7 +170,7 @@ namespace DataAccess.Data
                     while (result.Read())
                     {
                         customers.Add(new Customer(
-                         result.GetInt32(0),
+                         result.GetInt64(0),
                          result.GetString(1),
                          result.GetDateTime(2)
                         ));
@@ -182,7 +205,7 @@ namespace DataAccess.Data
                     while (result.Read())
                     {
                         customer = new Customer (
-                         result.GetInt32(0),
+                         result.GetInt64(0),
                          result.GetString(1),
                          result.GetDateTime(2)
                         );
@@ -238,8 +261,8 @@ namespace DataAccess.Data
                     while (result.Read())
                     {
                         comments.Add(new Comment (
-                        result.GetInt32(0),
-                        result.GetInt32(1),
+                        result.GetInt64(0),
+                        result.GetInt64(1),
                         result.GetString(2),
                         result.GetDateTime(3)
                         ));

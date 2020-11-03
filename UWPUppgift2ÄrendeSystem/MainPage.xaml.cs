@@ -31,14 +31,14 @@ namespace UWPUppgift2ÄrendeSystem
         public MainPage()
         {
             this.InitializeComponent();
-           // LoadCustomersAsync().GetAwaiter();
+            LoadCustomersAsync().GetAwaiter();
             LoadIssuesAsync().GetAwaiter();
         }
 
 
         private async Task LoadCustomersAsync()
         {
-           // cmbCustomers.ItemsSource = await SqliteContext.GetCustomersName();
+           cmbCustomers.ItemsSource = await SqliteContext.GetCustomerNamesAsync(); 
         }
 
       private async Task LoadIssuesAsync()
@@ -75,8 +75,8 @@ namespace UWPUppgift2ÄrendeSystem
                 {
                     Title = "Ett ärende" + Guid.NewGuid().ToString(),
                     Description = "Detta är ett ärende",
-                    CustomerId = _customerId
-                   // CustomerId = await SqliteContext.GetCustomersIdByName(cmbCustomers.SelectedItem.ToString())
+                    
+                   CustomerId = await SqliteContext.GetCustomerIdByNameAsync(cmbCustomers.SelectedItem.ToString())
 
                 }
 
