@@ -33,6 +33,15 @@ namespace DataAccess.Data
                 db.Close();
             }
         }
+        public static void DeleteIssueAsync()
+        {
+            using (var db = new SqliteConnection(_dbpath))
+            {
+                db.Open();
+                db.Dispose();
+                db.Close();
+            }
+        }
         #endregion
 
         #region Create Methods
@@ -87,6 +96,8 @@ namespace DataAccess.Data
                 cmd.CommandText = "SELECT last_insert_rowid()";
                 id = (int)(long)await cmd.ExecuteScalarAsync();
 
+                
+
 
 
                 db.Close();
@@ -94,6 +105,8 @@ namespace DataAccess.Data
 
             return id;
         }
+
+
 
         public static async Task CreateCommentAsync(Comment comment)
         {

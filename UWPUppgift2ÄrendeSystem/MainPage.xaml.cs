@@ -24,9 +24,9 @@ namespace UWPUppgift2ÄrendeSystem
     /// </summary>
     public sealed partial class MainPage : Page
     {
-
+       
         private IEnumerable<Issue> issues { get; set; }
-        private int _customerId {get;set;}
+        private long _customerId {get;set;}
 
         public MainPage()
         {
@@ -83,6 +83,11 @@ namespace UWPUppgift2ÄrendeSystem
                 ) ;
 
            await  LoadIssuesAsync();
+        }
+
+        private  void DeleteCase_Click(object sender, RoutedEventArgs e)
+        {
+           //SqliteContext.DeleteIssueAsync();
         }
     }
 }

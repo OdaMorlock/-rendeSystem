@@ -12,25 +12,37 @@
     <Grid>
         
         <StackPanel>
+            <StackPanel>
             <Button x:Name="CreateCustomer" Content="Create Customer" Click="CreateCustomer_Click"/>
             <Button x:Name="CreateCase" Content="Create Issue" Click="CreateCase_Click"/>
+                <Button x:Name="DeleteCase" Content="Delete Case" Click="DeleteCase_Click" />
+            </StackPanel>
 
             <ComboBox x:Name="cmbCustomers" PlaceholderText="Select a Customer" Margin="0,20" />
-            
-            
-            <ListView x:Name="LvActiveIssues">
+
+            <StackPanel Margin="20">
+                <TextBlock Text='Active Issues'/>
+                <ListView x:Name="LvActiveIssues">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Issue">
                         <StackPanel>
-                            
+                                <StackPanel>
                             <TextBlock Text="{x:Bind Title}"/>
                             <TextBlock Text="{x:Bind Status}"/>
-                            
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Customer.Id}"/>
+                                    <TextBlock Text="{x:Bind Customer.Name}" />
+                                </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ListView x:Name="LvClosedIssues">
+            </StackPanel>
+
+            <StackPanel Margin="20,20">
+                <TextBlock Text="Closed Issues"/>
+                <ListView x:Name="LvClosedIssues">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Issue">
                         <StackPanel>
@@ -41,8 +53,8 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-            
+              </ListView>
+            </StackPanel>
         </StackPanel>
 
     </Grid>

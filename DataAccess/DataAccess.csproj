@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data\SettingContext.cs" />
     <Compile Include="Data\SqliteContext.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -136,6 +137,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3">
       <Version>2.0.4</Version>
